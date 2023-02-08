@@ -6,12 +6,14 @@ import styles from './ImageUp.module.css'
 import supabase from '../../../../services/supabase'
 import Modals from '../../../../ui/Modals'
 import { useEditorStateValue } from '../../EditorState'
+import Spinner from 'react-bootstrap/Spinner'
 
 const ImageUp = () => {
   const [show, setShow] = useState(false)
   const [title, setTitle] = useState('')
   const [imgs, setImgs] = useState(null)
   const [img, setImg] = useState(null)
+  const [loading, setLoading] = useState(false)
   const { editor } = useEditorStateValue()
 
   const handleChange = (e) => {
@@ -23,6 +25,7 @@ const ImageUp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setLoading(true)
     if (imgs) {
       const { data, error } = await supabase.storage
         .from('images')
@@ -38,6 +41,7 @@ const ImageUp = () => {
         console.log(error)
       }
     }
+    setLoading(false)
   }
 
   return (
@@ -49,13 +53,15 @@ const ImageUp = () => {
         </Form.Group>
         <Form.Group controlId='formFile' className='mb-3'>
           <Form.Label>Select your local image</Form.Label>
-          <Form.Control type='file' onChange={handleChange} multiple required />
+          <Form.Control type='file' onChange={handleChange} accept='image/png, image/jpeg' required />
         </Form.Group>
         {img &&
           <div className={styles.containerImg}>
             <img src={img} />
           </div>}
-        <Button type='submit' disabled={!imgs || !title}>Submit</Button>
+        <Button type='submit' disabled={!imgs || !title || loading}>
+          {!loading ? 'Submit' : <Spinner size='sm' />}
+        </Button>
       </form>
     </Modals>
   )
