@@ -1,0 +1,13 @@
+.mansoryItem{
+  visibility: hidden;
+  margin-bottom: 1rem;
+  break-inside: avoid;
+}
+
+.bodyMansory{
+  padding: 0;
+}
+
+.show{
+ visibility: visible;
+}

@@ -1,0 +1,15 @@
+.wrapper{
+  width: 100%;
+  display: block;
+  columns: 15rem;
+  gap: 1rem;
+}
+
+@media screen and (max-width:768px) {
+  .wrapper{
+    width: 100%;
+    columns: 2;
+    gap: 1rem;
+    padding: 0 0.375rem;
+  }
+}
